@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <link rel="stylesheet" href="{% static 'doremiredo/styles.css' %}">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'list_course' %}">Courses</a></li>
+            <li><a href="{% url 'list_student' %}">Students</a></li>
+            <li><a href="{% url 'list_payment' %}">Payments</a></li>
+            <li><a href="{% url 'list_expense' %}">Expenses</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Add Expense</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="id_name">Expense Name:</label>
+            {{ form.name }}
+
+            <label for="id_amount">Amount:</label>
+            {{ form.amount }}
+
+            <label for="id_date">Date:</label>
+            {{ form.date }}
+
+            <button type="submit" class="submit-button">Add Expense</button>
+        </form>
+
+        <a href="{% url 'list_expense' %}" class="back-button">Back to Expenses</a>
+    </div>
+
+</body>
+</html>

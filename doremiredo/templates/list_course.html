@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <link rel="stylesheet" href="{% static 'doremiredo/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'list_course' %}">Courses</a></li>
+            <li><a href="{% url 'list_student' %}">Students</a></li>
+            <li><a href="{% url 'list_payment' %}">Payments</a></li>
+            <li><a href="{% url 'list_expense' %}">Expenses</a></li>
+            <li><a href="{% url 'add_course' %}" class="red-button">Add Course</a></li>
+        </ul>
+    </nav>
+
+    <h1>Courses</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Frequency</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.name }}</td>
+                <td>{{ course.price }}</td>
+                <td>{{ course.description }}</td>
+                <td>{{ course.get_frequency_display }}</td>
+                <td>
+                    <a href="{% url 'edit_course' course.id %}" class="btn">✏️ Edit</a> |
+                    <a href="{% url 'delete_course' course.id %}" class="btn">🗑️ Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Course</title>
+    <link rel="stylesheet" href="{% static 'doremiredo/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'list_course' %}">Courses</a></li>
+            <li><a href="{% url 'list_student' %}">Students</a></li>
+            <li><a href="{% url 'list_payment' %}">Payments</a></li>
+            <li><a href="{% url 'list_expense' %}">Expenses</a></li>
+        </ul>
+    </nav>
+    <h1>Add Course</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Course</button>
+    </form>
+    <br>
+    <a href="{% url 'list_course' %}" class="back-button">Back to Courses</a>
+
+</body>
+</html>

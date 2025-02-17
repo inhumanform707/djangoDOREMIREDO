@@ -1,0 +1,236 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #8360c3, #2ebf91);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+select {
+    margin-bottom: 10px; /* Adds space below dropdown */
+    padding: 5px; /* Adds inner padding for better appearance */
+    font-size: 16px; /* Increases font size for readability */
+    border-radius: 5px; /* Adds rounded corners */
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Table Styling */
+.table-container {
+    min-height: 200px;
+    overflow: auto;
+    margin-bottom: 20px;
+    flex: 3;
+}
+
+/* Ensure table alignment */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left; /* Aligns text inside cells */
+}
+
+th, td {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    text-align: center; /* Centers header text */
+}
+
+td {
+    text-align: center;
+    background-color: white;
+    color: black;
+}
+
+canvas {
+    max-width: 600px;  /* Adjust width */
+    max-height: 300px; /* Adjust height */
+    background-color: white; /* White background */
+    border-radius: 8px; /* Optional: rounded corners */
+    padding: 10px; /* Optional: spacing */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Optional: subtle shadow */
+}
+
+/* Chart Container */
+.chart-container {
+    display: flex;
+    justify-content: center;  /* Centers chart horizontally */
+    margin-top: 20px;  /* Adds space below <h2> */
+}
+
+/* Month Links */
+.month-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.month-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Back Button */
+.back-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #218838;
+}
+
+/* Navigation Bar Styling */
+nav {
+    background-color: #007bff; /* Blue background */
+    padding: 15px;
+    text-align: center; /* Center align links */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center the items */
+    gap: 20px; /* Add spacing between items */
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.red-button {
+    background-color: red; /* Red button */
+    color: white; /* White text */
+    padding: 10px 10px;
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Removes underline */
+    font-weight: bold; /* Makes text stand out */
+    display: inline; /* Ensures proper spacing */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.red-button:hover {
+    background-color: darkred; /* Darker red on hover */
+}
+
+.btn {
+    display: inline;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #28a745; /* Green */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #218838; /* Darker green */
+}
+
+.top-controls {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items within the container */
+    gap: 10px; /* Space between button and dropdown */
+    margin-bottom: 15px;
+}
+
+#monthDropdown {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.top-controls label {
+    font-size: 16px; /* Adjust font size */
+    font-weight: bold; /* Make text bold */
+    color: white; /* Match the theme */
+    margin-bottom: 5px; /* Add spacing below the label */
+}
+
+/* Wrapper za tablicu i alert banner */
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Container za upozorenja */
+.alert-container {
+    width: 30%;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex: 1;
+}
+
+.alert-container h3 {
+    color: black;
+}
+
+.alert-container h4 {
+    color: black;
+}
+
+.alert-container p {
+    color: black;
+}
+
+.alert-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.alert-box.urgent {
+    background-color: #ffcccc; /* Light red background for overdue */
+    border: 1px solid red;
+}
+

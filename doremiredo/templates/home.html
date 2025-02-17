@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'doremiredo/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'list_course' %}">Courses</a></li>
+            <li><a href="{% url 'list_student' %}">Students</a></li>
+            <li><a href="{% url 'list_payment' %}">Payments</a></li>
+            <li><a href="{% url 'list_expense' %}">Expenses</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Heading -->
+        <h2>Monthly Payments & Expenses</h2>
+
+        <div class="content-wrapper">
+            <!-- Table Container -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Payments</th>
+                            <th>Expenses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for month_data in monthly_data %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'monthly_details' month=month_data.month %}">
+                                    {{ month_data.month }}
+                                </a>
+                            </td>
+                            <td>{{ month_data.payments }}</td>
+                            <td>{{ month_data.expenses }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- Alert Container for Due Payments -->
+            <div class="alert-container">
+                <h3>Upcoming Due Payments</h3>
+                {% if alerts %}
+                    {% for alert in alerts %}
+                        <div class="alert-box {% if alert.urgent %}urgent{% endif %}">
+                            <h4>{{ alert.student_name }}</h4>
+                            <p>Due Date: {{ alert.due_date }}</p>
+                            {% if alert.urgent %}
+                                <p><strong style="color: red;">Overdue!</strong></p>
+                            {% else %}
+                                <p><strong style="color: orange;">Due soon!</strong></p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No upcoming due payments.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Chart for Payments & Expenses -->
+        <h2>Payments vs Expenses</h2>
+        <div class="chart-container">
+            <canvas id="monthlyChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('monthlyChart').getContext('2d');
+
+            var months = JSON.parse('{{ months|safe }}');
+            var payments = JSON.parse('{{ payments_per_month|safe }}');
+            var expenses = JSON.parse('{{ expenses_per_month|safe }}');
+
+            var monthlyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Payments',
+                            data: payments,
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)', // Blue
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Expenses',
+                            data: expenses,
+                            backgroundColor: 'rgba(255, 99, 132, 0.7)', // Red
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
