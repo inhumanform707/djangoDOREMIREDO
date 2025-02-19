@@ -40,6 +40,7 @@
                     <th>Name</th>
                     <th>Amount</th>
                     <th>Date</th>
+                    <th>Note</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -49,6 +50,7 @@
                     <td>{{ expense.name }}</td>
                     <td>{{ expense.amount }}</td>
                     <td>{{ expense.date }}</td>
+                    <td>{{ expense.note }}</td>
                     <td>
                         <a href="{% url 'edit_expense' expense.id %}" class="btn">️ ✏️ Edit</a>
                         <a href="{% url 'delete_expense' expense.id %}" class="btn" onclick="return confirm('Are you sure you want to delete this expense?');">🗑️ Delete</a>
@@ -56,7 +58,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4">No expenses recorded.</td>
+                    <td colspan="5">No expenses recorded.</td>
                 </tr>
                 {% endfor %}
             </tbody>

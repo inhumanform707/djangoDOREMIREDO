@@ -23,7 +23,7 @@ class PaymentForm(forms.ModelForm):
 
     class Meta:
         model = Payment
-        fields = ['student', 'amount', 'date', 'model']
+        fields = ['student', 'amount', 'date', 'model', 'note']
 
 
 class ExpenseForm(forms.ModelForm):
@@ -34,6 +34,6 @@ class ExpenseForm(forms.ModelForm):
 
     class Meta:
         model = Expense
-        fields = ['name', 'amount', 'date']
+        fields = ['name', 'amount', 'date', 'note']
 
 
