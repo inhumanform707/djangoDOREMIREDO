@@ -58,20 +58,41 @@ td {
     color: black;
 }
 
-canvas {
-    max-width: 600px;  /* Adjust width */
-    max-height: 300px; /* Adjust height */
-    background-color: white; /* White background */
-    border-radius: 8px; /* Optional: rounded corners */
-    padding: 10px; /* Optional: spacing */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Optional: subtle shadow */
+/* Chart Wrapper */
+.chart-wrapper {
+    display: flex;
+    justify-content: space-between; /* Space between charts */
+    gap: 20px; /* Adds spacing between charts */
+    margin-top: 20px; /* Adds space above the charts */
+    flex-wrap: wrap; /* Allows wrapping if space is insufficient */
 }
 
 /* Chart Container */
 .chart-container {
+    flex: 1; /* Each chart takes equal space */
+    background-color: white; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Inner spacing */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    min-width: 300px; /* Minimum width for each chart */
+    max-width: calc(50% - 10px); /* Ensures two charts fit side by side */
+    height: auto; /* Let the height adjust dynamically */
     display: flex;
-    justify-content: center;  /* Centers chart horizontally */
-    margin-top: 20px;  /* Adds space below <h2> */
+    flex-direction: column; /* Stack heading and chart vertically */
+}
+
+/* Chart Heading */
+.chart-container h2 {
+    margin: 0 0 10px 0; /* Add spacing below the heading */
+    font-size: 18px; /* Adjust heading size */
+    color: black; /* Ensure heading is visible */
+}
+
+/* Ensure canvas fills the container */
+.chart-container canvas {
+    width: 100% !important;
+    height: 250px !important; /* Fixed height for the chart */
+    flex: 1; /* Allow the canvas to take remaining space */
 }
 
 /* Month Links */
@@ -200,37 +221,55 @@ nav ul li a:hover {
     gap: 20px;
 }
 
-/* Container za upozorenja */
-.alert-container {
-    width: 30%;
+/* Alert Banner */
+.alert-banner {
     background: rgba(255, 255, 255, 0.9);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    flex: 1;
+    margin-bottom: 20px;
 }
 
-.alert-container h3 {
+.alert-banner h3 {
     color: black;
+    margin: 0 0 10px 0;
 }
 
-.alert-container h4 {
-    color: black;
+.alert-banner a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.alert-container p {
-    color: black;
+.alert-banner a:hover {
+    text-decoration: underline;
 }
 
-.alert-box {
+.student-details-table {
+    width: 50%;
+    max-width: 500px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #f9f9f9;
     border: 1px solid #ddd;
+}
+
+.student-details-table td {
     padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
-.alert-box.urgent {
-    background-color: #ffcccc; /* Light red background for overdue */
-    border: 1px solid red;
+.student-details-table tr:nth-child(even) {
+    background-color: #f1f1f1;
 }
 
+.student-details-table td:first-child {
+    font-weight: bold;
+    width: 40%;
+    text-align: right;
+    background-color: #eee;
+}
+
+.student-details-table td:last-child {
+    text-align: left;
+}

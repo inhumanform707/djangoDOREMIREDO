@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Due and Overdue Students</title>
+    <link rel="stylesheet" href="{% static 'doremiredo/styles.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'list_course' %}">Courses</a></li>
+            <li><a href="{% url 'list_student' %}">Students</a></li>
+            <li><a href="{% url 'list_payment' %}">Payments</a></li>
+            <li><a href="{% url 'list_expense' %}">Expenses</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Due and Overdue Students</h2>
+
+        <!-- Due Soon Students -->
+        <h3>Due Soon (Next 3 Days)</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student_data in due_soon_students %}
+                    <tr>
+                        <td>{{ student_data.student.name }}</td>
+                        <td>{{ student_data.due_date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">No students due soon.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Overdue Students -->
+        <h3>Overdue Students</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student_data in overdue_students %}
+                    <tr>
+                        <td>{{ student_data.student.name }}</td>
+                        <td>{{ student_data.due_date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2">No overdue students.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Back Button -->
+        <a href="{% url 'home' %}" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>

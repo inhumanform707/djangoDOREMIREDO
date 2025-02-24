@@ -5,7 +5,39 @@ from django.utils.timezone import now
 from django.db.models import Sum
 from .models import Course, Student, Payment, Expense
 from .forms import CourseForm, StudentForm, ExpenseForm, PaymentForm
+from django.views.generic import ListView, DetailView
 import json
+
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+
+def categorize_students_by_age(students):
+    age_categories = {
+        '4-6': 0,
+        '7-9': 0,
+        '10-12': 0,
+        '13-16': 0,
+        '17+': 0
+    }
+
+    for student in students:
+        if student.date_of_birth:
+            age = calculate_age(student.date_of_birth)
+            if 4 <= age <= 6:
+                age_categories['4-6'] += 1
+            elif 7 <= age <= 9:
+                age_categories['7-9'] += 1
+            elif 10 <= age <= 12:
+                age_categories['10-12'] += 1
+            elif 13 <= age <= 16:
+                age_categories['13-16'] += 1
+            else:
+                age_categories['17+'] += 1
+
+    return age_categories
 
 
 @login_required
@@ -22,8 +54,10 @@ def home(request):
     # Prepare a list of dictionaries with month, payments, and expenses
     monthly_data = []
     for month in range(1, 13):
-        total_payments = Payment.objects.filter(date__year=current_year, date__month=month).aggregate(Sum('amount'))['amount__sum'] or 0
-        total_expenses = Expense.objects.filter(date__year=current_year, date__month=month).aggregate(Sum('amount'))['amount__sum'] or 0
+        total_payments = Payment.objects.filter(date__year=current_year,
+                                                date__month=month).aggregate(Sum('amount'))['amount__sum'] or 0
+        total_expenses = Expense.objects.filter(date__year=current_year,
+                                                date__month=month).aggregate(Sum('amount'))['amount__sum'] or 0
 
         # Convert Decimal to float to avoid JSON serialization error
         monthly_data.append({
@@ -34,7 +68,8 @@ def home(request):
 
     # Fetch students and check due payments
     today = datetime.today().date()
-    alerts = []
+    due_soon_count = 0
+    overdue_count = 0
 
     for student in Student.objects.filter(is_active=True):  # Only active students
         last_payment = student.get_last_payment_date()
@@ -55,9 +90,13 @@ def home(request):
                 days_until_due = (next_due_date - today).days
 
                 if 0 <= days_until_due <= 3:  # Due in 3 or fewer days
-                    alerts.append({"student_name": student.name, "due_date": next_due_date, "urgent": False})
+                    due_soon_count += 1
                 elif days_until_due < 0:  # Already overdue
-                    alerts.append({"student_name": student.name, "due_date": next_due_date, "urgent": True})
+                    overdue_count += 1
+
+    # Get age distribution data
+    students = Student.objects.filter(is_active=True)
+    age_distribution = categorize_students_by_age(students)
 
     # Pass data to the template
     context = {
@@ -65,7 +104,9 @@ def home(request):
         "months": json.dumps([data["month"] for data in monthly_data]),
         "payments_per_month": json.dumps([data["payments"] for data in monthly_data]),
         "expenses_per_month": json.dumps([data["expenses"] for data in monthly_data]),
-        "alerts": alerts,
+        "due_soon_count": due_soon_count,
+        "overdue_count": overdue_count,
+        "age_distribution": json.dumps(age_distribution),  # Add age distribution data
     }
 
     return render(request, 'home.html', context)
@@ -312,3 +353,57 @@ def delete_expense(request, expense_id):
 
     return render(request, 'confirm_delete_expense.html', {'expense': expense})
 
+
+class StudentListView(ListView):
+    model = Student
+    template_name = 'list_student.html'
+    context_object_name = 'students'
+
+
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'student_details.html'
+    context_object_name = 'student'
+
+
+@login_required
+def due_overdue_students(request):
+    today = datetime.today().date()
+    due_soon_students = []
+    overdue_students = []
+
+    for student in Student.objects.filter(is_active=True):  # Only active students
+        last_payment = student.get_last_payment_date()
+
+        if last_payment == "No payments" or last_payment is None:
+            continue  # Skip students with no payments
+
+        if isinstance(last_payment, str):
+            last_payment = datetime.strptime(last_payment, "%Y-%m-%d").date()  # Convert string to date
+
+        if student.course:  # Ensure student has a course
+            if student.course.frequency == "monthly":
+                next_due_date = last_payment + timedelta(days=30)
+            else:
+                next_due_date = None  # Single-payment courses do not have recurring due dates
+
+            if next_due_date:
+                days_until_due = (next_due_date - today).days
+
+                if 0 <= days_until_due <= 3:  # Due in 3 or fewer days
+                    due_soon_students.append({
+                        "student": student,
+                        "due_date": next_due_date,
+                    })
+                elif days_until_due < 0:  # Already overdue
+                    overdue_students.append({
+                        "student": student,
+                        "due_date": next_due_date,
+                    })
+
+    context = {
+        "due_soon_students": due_soon_students,
+        "overdue_students": overdue_students,
+    }
+
+    return render(request, 'due_overdue_students.html', context)

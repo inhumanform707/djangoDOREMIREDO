@@ -1,6 +1,6 @@
 from django import forms
 from .models import Course, Student, Expense, Payment
-from datetime import date
+from datetime import date, datetime
 
 
 class CourseForm(forms.ModelForm):
@@ -12,7 +12,14 @@ class CourseForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name', 'course', 'second_child', 'third_child', 'is_active']
+        fields = ['name', 'course', 'second_child', 'third_child', 'is_active',
+                  'date_of_birth', 'enrollment', 'discharge', 'school_class', 'school',
+                  'profession', 'contact', 'notes']
+        widgets = {
+            'enrollment': forms.DateInput(attrs={'type': 'date'}),
+            'discharge': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 class PaymentForm(forms.ModelForm):

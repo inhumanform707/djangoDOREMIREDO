@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <link rel="stylesheet" href="{% static 'doremiredo/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'list_course' %}">Courses</a></li>
+            <li><a href="{% url 'list_student' %}">Students</a></li>
+            <li><a href="{% url 'list_payment' %}">Payments</a></li>
+            <li><a href="{% url 'list_expense' %}">Expenses</a></li>
+            <li><a href="{% url 'add_student' %}" class="red-button">Add Student</a></li>
+        </ul>
+    </nav>
+
+    <h1>Student Details: {{ student.name }}</h1>
+
+    <table class="student-details-table">
+        <tr><td><strong>Name:</strong></td><td>{{ student.name }}</td></tr>
+        <tr><td><strong>Date of Birth:</strong></td><td>{{ student.date_of_birth }}</td></tr>
+        <tr><td><strong>Enrollment:</strong></td><td>{{ student.enrollment }}</td></tr>
+        <tr><td><strong>Discharge:</strong></td><td>{{ student.discharge }}</td></tr>
+        <tr><td><strong>Class:</strong></td><td>{{ student.school_class }}</td></tr>
+        <tr><td><strong>School:</strong></td><td>{{ student.school }}</td></tr>
+        <tr><td><strong>Profession:</strong></td><td>{{ student.profession }}</td></tr>
+        <tr><td><strong>Second Child:</strong></td><td>{{ student.second_child|yesno:"Yes,No" }}</td></tr>
+        <tr><td><strong>Third Child:</strong></td><td>{{ student.third_child|yesno:"Yes,No" }}</td></tr>
+        <tr><td><strong>Active:</strong></td><td>{{ student.is_active|yesno:"Yes,No" }}</td></tr>
+        <tr><td><strong>Course:</strong></td><td>{{ student.course }}</td></tr>
+        <tr><td><strong>Contact:</strong></td><td>{{ student.contact }}</td></tr>
+        <tr><td><strong>Notes:</strong></td><td>{{ student.notes }}</td></tr>
+    </table>
+
+    <a href="{% url 'list_student' %}">⬅ Back to Students</a>
+</body>
+</html>

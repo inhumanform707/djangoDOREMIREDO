@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 
 class Course(models.Model):
@@ -29,6 +30,14 @@ class Student(models.Model):
     third_child = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)  # Optional
+    enrollment = models.DateField(default=date.today, null=True, blank=True)  # Optional
+    discharge = models.DateField(null=True, blank=True)  # Optional
+    school_class = models.PositiveIntegerField(null=True, blank=True)  # Optional
+    school = models.CharField(max_length=255, blank=True, null=True)  # Optional
+    profession = models.CharField(max_length=255, blank=True, null=True)  # Optional
+    contact = models.CharField(max_length=100, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
